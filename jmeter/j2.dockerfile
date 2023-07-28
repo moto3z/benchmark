@@ -20,6 +20,7 @@ RUN   mkdir /jmeter \
     && wget https://jmeter-plugins.org/downloads/file/JMeterPlugins-ExtrasLibs-1.4.0.zip \
     && unzip -o JMeterPlugins-ExtrasLibs-1.4.0.zip -d /jmeter/apache-jmeter-3.1/
 # Settingt Jmeter Home
+EXPOSE 60000  1099 50000
 ENV JMETER_HOME /jmeter/apache-jmeter-3.1/
 # Finally Adding Jmeter to the Path
 ENV PATH $JMETER_HOME/bin:$PATH
