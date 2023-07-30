@@ -7,5 +7,6 @@
 
 - 실행하는 방법 
 ```
-docker-compose run --rm -T k6 run -<samples/script.js
+docker-compose up -d &&
+docker-compose run --rm -T k6 run -<examples/sample.js
 ```
