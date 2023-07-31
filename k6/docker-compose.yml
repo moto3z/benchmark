@@ -14,13 +14,8 @@ services:
       - "8086:8086"
     environment:
       - INFLUXDB_DB=k6
-      # - INFLUXDB_ADMIN_USER_PASSWORD=adminadmin
-      # - INFLUXDB_USER=admin
-      # - INFLUXDB_USER_PASSWORD=adminadmin
-      #- INFLUXDB_HTTP_AUTH_ENABLED=false
-      - INFLUXDB_DATA_ENGINE=tsm1
-      - INFLUXDB_REPORTING_DISABLED=false
-    restart: always
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
     # volumes:
     # - influxdb_data:/bitnami/influxdb
 
@@ -37,7 +32,6 @@ services:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,briangann-gauge-panel,natel-plotly-panel,grafana-simple-json-datasource
     links:
       - influxdb
-    restart: always
     #volumes:
     # - ./grafana:/etc/grafana/provisioning/
 
@@ -54,3 +48,6 @@ services:
     volumes:
       - ./examples:/scripts
     #command:
+volumes:
+  grafana:
+  influxdb:
