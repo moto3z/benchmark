@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  controller:
+    image: ngrinder/controller
+    container_name: controller
+    # volumes:
+    #   - ~/ngrinder-controller:/opt/ngrinder-controller
+    ports:
+      - "80:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
+
+  agent:
+    image: ngrinder/agent
+    container_name: agent
+    links:
+      - controller
+    depends_on:
+      - controller
+    command: ["sh", "-c", "while ! nc -z controller 16001; do sleep 1; done && java -DcontrollerIP=controller -jar /opt/ngrinder-agent/ngrinder-agent.jar"]

@@ -16,3 +16,8 @@ docker run -it jmeter_base:latest
 ## 엔그
 
 - 엔그라인더 : http://localhost:9000/
+
+- 아.. 왜안되는지 모르겠다..
+```sh
+docker run -d -v ~/ngrinder-controller:/opt/ngrinder-controller --name controller -p 80:80 -p 16001:16001 -p 12000-12009:12000-12009 ngrinder/controller && docker run -d --name agent --link controller:controller ngrinder/agent
+```
