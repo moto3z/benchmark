@@ -1,36 +1,18 @@
 version: "3.8"
+#    environment:
+#      - TZ=Asia/Seoul
+
+
 services:
-  controller:
-    container_name: controller
-    image: ngrinder/controller:3.5.8
-    environment:
-      - TZ=Asia/Seoul
-    restart: always
+  ngrinder-controller:
+    image: adoptopenjdk:11-jre-hotspot
+    platform: linux/amd64  # Specify the platform for M1 Mac
     ports:
-      - "8880:80"
-      - "16001:16001"
-      - "12000-12009:12000-12009"
+      - "8080:8080"
     volumes:
-      - ./ngrinder-controller:/opt/ngrinder-controller
-    sysctls:
-      - net.core.somaxconn=65000
-  agent-1:
-    container_name: agent-1
-    image: ngrinder/agent:3.5.8
-    environment:
-      - TZ=Asia/Seoul
-    restart: always
-    links:
-      - controller
-    sysctls:
-      - net.core.somaxconn=65000
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nproc:
-        soft: 1024000
-        hard: 1024000
-      nofile:
-        soft: 1024000
-        hard: 1024000
+      - ./ngrinder:/ngrinder
+    command: >
+      /bin/bash -c "
+      apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* &&
+      curl -L -o /ngrinder/ngrinder-controller.war https://github.com/naver/ngrinder/releases/download/ngrinder-3.5.8-20221230/ngrinder-controller-3.5.8.war &&
+      java -jar /ngrinder/ngrinder-controller.war"
