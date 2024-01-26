@@ -4,9 +4,10 @@ version: "3.8"
 
 
 services:
-  ngrinder-controller:
-    image: adoptopenjdk:11-jre-hotspot
-    platform: linux/amd64  # Specify the platform for M1 Mac
+  ngrinder-con:
+    container_name: "ngrinder"
+    image: openjdk:11.0-jdk
+    platform: linux/arm64  # Specify the platform for M1 Mac
     ports:
       - "8080:8080"
     volumes:
@@ -16,3 +17,7 @@ services:
       apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* &&
       curl -L -o /ngrinder/ngrinder-controller.war https://github.com/naver/ngrinder/releases/download/ngrinder-3.5.8-20221230/ngrinder-controller-3.5.8.war &&
       java -jar /ngrinder/ngrinder-controller.war"
+
+
+#      apt install wget &&
+#      wget -O /ngrinder/ngrinder-controller.war https://github.com/naver/ngrinder/releases/download/ngrinder-3.5.8-20221230/ngrinder-controller-3.5.8.war &&
