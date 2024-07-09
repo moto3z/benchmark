@@ -21,3 +21,13 @@ docker run -it jmeter_base:latest
 ```sh
 docker run -d -v ~/ngrinder-controller:/opt/ngrinder-controller --name controller -p 80:80 -p 16001:16001 -p 12000-12009:12000-12009 ngrinder/controller && docker run -d --name agent --link controller:controller ngrinder/agent
 ```
+
+
+```
+docker run -d -v ~/ngrinder-controller:/opt/ngrinder-controller --name controller -p 80:80 -p 16001:16001 -p 12000-12009:12000-12009 ngrinder/controller:3.5.5-p1
+
+docker run -d --name agent --link controller:controller ngrinder/agent:3.5.5-p1
+
+
+
+```

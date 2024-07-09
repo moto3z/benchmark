@@ -1,23 +1,33 @@
 version: "3.8"
-#    environment:
-#      - TZ=Asia/Seoul
-
-
 services:
-  ngrinder-con:
-    container_name: "ngrinder"
-    image: openjdk:11.0-jdk
-    platform: linux/arm64  # Specify the platform for M1 Mac
+
+  controller:
+    container_name: controller
+    image: ngrinder/controller:3.5.5-p1
+    environment:
+      - TZ=Asia/Seoul
+    restart: always
     ports:
-      - "8080:8080"
+      - "80:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
     volumes:
-      - ./ngrinder:/ngrinder
-    command: >
-      /bin/bash -c "
-      apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* &&
-      curl -L -o /ngrinder/ngrinder-controller.war https://github.com/naver/ngrinder/releases/download/ngrinder-3.5.8-20221230/ngrinder-controller-3.5.8.war &&
-      java -jar /ngrinder/ngrinder-controller.war"
+      - ./ngrinder-controller:/opt/ngrinder-controller
+    networks:
+      - my_bridge_network
 
 
-#      apt install wget &&
-#      wget -O /ngrinder/ngrinder-controller.war https://github.com/naver/ngrinder/releases/download/ngrinder-3.5.8-20221230/ngrinder-controller-3.5.8.war &&
+  agent-1:
+    container_name: agent-1
+    image: ngrinder/agent:3.5.5-p1
+    environment:
+      - TZ=Asia/Seoul
+    restart: always
+    links:
+      - controller
+    networks:
+      - my_bridge_network
+
+networks:
+  my_bridge_network:
+    driver: bridge
